@@ -12,23 +12,19 @@ public class P11279 {
         StringBuilder sb = new StringBuilder();
 
         int n = Integer.parseInt(bf.readLine());
-        PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.reverseOrder());
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Collections.reverseOrder());
 
 
         for (int i = 0; i < n; i++) {
             int x = Integer.parseInt(bf.readLine());
-            switch (x) {
-
-                case 0:
-                    if (queue.isEmpty()) {
-                        sb.append(0).append("\n");
-                    } else {
-                        sb.append(queue.poll()).append("\n");
-                    }
-                    break;
-
-                default:
-                    queue.add(x);
+            if (x == 0) {
+                if (queue.isEmpty()) {
+                    sb.append(0).append("\n");
+                } else {
+                    sb.append(queue.poll()).append("\n");
+                }
+            } else {
+                queue.add(x);
             }
         }
 
