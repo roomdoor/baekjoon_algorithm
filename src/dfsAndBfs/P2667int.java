@@ -27,6 +27,7 @@ public class P2667int {
                 int[] temp = queue.poll();
                 int xNew = temp[0];
                 int yNew = temp[1];
+                
                 if (xNew < n - 1 && !isChecked[xNew + 1][yNew] && map[xNew + 1][yNew] == 1) {
                     count++;
                     queue.add(new int[]{xNew + 1, yNew});
