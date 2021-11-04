@@ -19,7 +19,7 @@ public class P2606 {
         while (!queue.isEmpty()) {
             count++;
             int y = queue.poll();
-            sb.append(y).append(" ");
+//            sb.append(y).append(" ");
             for (int x : list.get(y)) {
                 if (!isChecked[x]) {
                     queue.add(x);
