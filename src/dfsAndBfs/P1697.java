@@ -16,6 +16,8 @@ public class P1697 {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
 
+        int[] isChecked = new int[200002];
+
         Queue<int[]> queue = new ArrayDeque<>();
         queue.add(new int[]{n, 0});
 
@@ -23,16 +25,24 @@ public class P1697 {
             int[] temp = queue.poll();
             int point = temp[0];
             int time = temp[1];
+            isChecked[point] = time;
 
             if (point == m) {
                 System.out.println(time);
                 break;
             }
-            if (point > m) {
+
+            if (point > 0 && isChecked[point - 1] == 0)
                 queue.add(new int[]{point - 1, time + 1});
+
+
+            if (point < m) {
+                if (isChecked[point + 1] == 0)
+                    queue.add(new int[]{point + 1, time + 1});
+
+                if (isChecked[point * 2] == 0)
+                    queue.add(new int[]{point * 2, time + 1});
             }
-            queue.add(new int[]{point + 1, time + 1});
-            queue.add(new int[]{point * 2, time + 1});
         }
     }
 }

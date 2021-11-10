@@ -48,16 +48,16 @@ public class P2206r {
                 int newX = temp.x + dx[i];
                 int newY = temp.y + dy[i];
                 int distance = temp.distance;
-                int wallCrushPoint = temp.wallCrush;
+                int wallCrush = temp.wallCrush;
 
-                if (isPossible(newX, newY, wallCrushPoint)) {
-                    if (map[newX][newY] == 1 && wallCrushPoint == 1) {
-                        queue.add(new queuePoint(newX, newY, distance + 1, 0));
-                        isVisited[newX][newY][wallCrushPoint] = true;
+                if (isPossible(newX, newY, wallCrush)) {
+                    if (map[newX][newY] == 1 && wallCrush == 0) {
+                        queue.add(new queuePoint(newX, newY, distance + 1, 1));
+                        isVisited[newX][newY][0] = true;
 
                     } else if (map[newX][newY] == 0) {
-                        queue.add(new queuePoint(newX, newY, distance + 1, wallCrushPoint + 1));
-                        isVisited[newX][newY][1] = true;
+                        queue.add(new queuePoint(newX, newY, distance + 1, wallCrush));
+                        isVisited[newX][newY][wallCrush] = true;
                     }
                 }
             }
@@ -66,8 +66,8 @@ public class P2206r {
     }
 
 
-    public static boolean isPossible(int x, int y, int wallCrushPoint) {
-        return x >= 0 && y >= 0 && x < n && y < m && isVisited[x][y][wallCrushPoint];
+    public static boolean isPossible(int x, int y, int wallCrush) {
+        return x >= 0 && y >= 0 && x < n && y < m && !isVisited[x][y][wallCrush];
     }
 
     private static class queuePoint {
