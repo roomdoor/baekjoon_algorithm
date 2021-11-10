@@ -48,7 +48,7 @@ public class P2206r {
                 int newX = temp.x + dx[i];
                 int newY = temp.y + dy[i];
                 int distance = temp.distance;
-                int wallCrushPoint = temp.wallCrush;  // 벽 부술 수 있는 기회 ( 1이 있으면 벽을 한번 부술 수 잇음)
+                int wallCrushPoint = temp.wallCrush;
 
                 if (isPossible(newX, newY, wallCrushPoint)) {
                     if (map[newX][newY] == 1 && wallCrushPoint == 1) {
