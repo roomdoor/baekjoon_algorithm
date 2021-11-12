@@ -24,6 +24,7 @@ public class P1753 {
 
         map = new ArrayList[v + 1];
         for (int i = 0; i <= v; i++) map[i] = new ArrayList<>();
+        isVisited = new boolean[v + 1];
         totalDistance = new int[v + 1];
         Arrays.fill(totalDistance, Integer.MAX_VALUE);
         totalDistance[firstPoint] = 0;
@@ -36,25 +37,25 @@ public class P1753 {
             map[start].add(new Node(end, distance));
         }
 
+
+        bfs(firstPoint);
+
         for (int i = 1; i <= v; i++) {
-            bfs(firstPoint, i, v);
-            if (totalDistance[i] != Integer.MAX_VALUE) sb.append(totalDistance[i]).append("\n");
-            else sb.append("INF").append("\n");
+            if (totalDistance[i] == Integer.MAX_VALUE) sb.append("INF").append("\n");
+            else sb.append(totalDistance[i]).append("\n");
         }
 
         System.out.println(sb.toString());
     }
 
-    public static void bfs(int start, int end, int v) {
-        Queue<Node> queue = new ArrayDeque<>();
+    public static void bfs(int start) {
+        PriorityQueue<Node> queue = new PriorityQueue<>();
         queue.add(new Node(start, 0));
-        isVisited = new boolean[v + 1];
 
         while (!queue.isEmpty()) {
             Node curNode = queue.poll();
             int cur = curNode.end;
             int distance = curNode.distance;
-            if (cur == end) return;
 
             if (!isVisited[cur]) {
                 isVisited[cur] = true;
@@ -66,18 +67,21 @@ public class P1753 {
                     }
                 }
             }
-
-
         }
     }
 
-    private static class Node {
-        int end;
-        int distance;
+    private static class Node implements Comparable<Node> {
+
+        int end, distance;
 
         public Node(int end, int distance) {
             this.end = end;
             this.distance = distance;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return distance - o.distance;
         }
     }
 }
