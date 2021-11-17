@@ -30,7 +30,7 @@ public class P1504 {
         for (int i = 1; i <= n; i++) map[i] = new ArrayList<>();
 
         totalDistance[0][1] = 0;
-        totalDistance[2][1] = 0;
+        totalDistance[1][1] = 0;
 
         for (int i = 0; i < e; i++) {
             st = new StringTokenizer(bf.readLine());
@@ -38,6 +38,7 @@ public class P1504 {
             int b = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
             map[a].add(new Point(b, c, 0, 0, 0));
+            map[b].add(new Point(a, c, 0, 0, 0));
         }
 
         st = new StringTokenizer(bf.readLine());
@@ -53,7 +54,7 @@ public class P1504 {
     public static void bfs() {
         PriorityQueue<Point> queue = new PriorityQueue<>();
         queue.add(new Point(1, 0, 0, 0, 0));
-
+        int count = 0;
         while (!queue.isEmpty()) {
             Point point = queue.poll();
             int cur = point.y;
@@ -72,7 +73,10 @@ public class P1504 {
                 point.two = 1;
             }
 
-            if (cur == n && wauPoint == 3) return; // wayPoint1, wayPoint2 다 거쳐서 n 왔을때
+            if (cur == n && wauPoint == 3) {
+                count += 1;  // v1 -> v2 -> n and v2 -> v1 -> n
+                if (count == 2) return;
+            } // wayPoint1, wayPoint2 다 거쳐서 n 왔을때
 
 
             switch (wauPoint) { // wayPoint 0(하나도 안거침), 1(1 or 2만거침), 3(둘다 거침)
@@ -120,7 +124,7 @@ public class P1504 {
                     }
 
                 case 3:
-                    if (isVisited[3][cur] == 0) {
+                    if (isVisited[3][cur] == 0 && cur != n) {
                         isVisited[3][cur] = 1;
                         for (int i = 0; i < map[cur].size(); i++) {
                             int distance = Math.min(dis + map[cur].get(i).distance, totalDistance[3][map[cur].get(i).y]);
@@ -151,8 +155,7 @@ public class P1504 {
 
         @Override
         public int compareTo(Point o) {
-            if (wayPoint == o.wayPoint) return distance - o.distance;
-            else return o.wayPoint - wayPoint;
+            return distance - o.distance;
         }
     }
 }
