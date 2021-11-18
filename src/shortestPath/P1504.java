@@ -45,7 +45,7 @@ public class P1504 {
         wayPoint1 = Integer.parseInt(st.nextToken());
         wayPoint2 = Integer.parseInt(st.nextToken());
 
-        bfs();
+        dijkstra();
 
         int answer = Math.min(totalDistance[3][n], totalDistance[4][n]);
 
@@ -54,7 +54,7 @@ public class P1504 {
         System.out.println(Arrays.deepToString(totalDistance));
     }
 
-    public static void bfs() {
+    public static void dijkstra() {
         PriorityQueue<Point> queue = new PriorityQueue<>();
         queue.add(new Point(1, 0, 0, new ArrayList<>()));
         totalDistance[0][1] = 0;

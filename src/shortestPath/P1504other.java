@@ -40,25 +40,25 @@ public class P1504other {
         wayPoint2 = Integer.parseInt(st.nextToken());
 
 
-        bfs(1, wayPoint1);
+        dijkstra(1, wayPoint1);
         int temp = totalDistance[wayPoint1];
 //        System.out.println(temp + " start -> v1");
-        bfs(wayPoint1, wayPoint2);
+        dijkstra(wayPoint1, wayPoint2);
         temp += totalDistance[wayPoint2];
 //        System.out.println(temp + " v1 -> v2");
-        bfs(wayPoint2, n);
+        dijkstra(wayPoint2, n);
         temp += totalDistance[n];
 //        System.out.println(temp + " v2 -> n");
         int v1v2n = temp;
 
         temp = 0;
-        bfs(1, wayPoint2);
+        dijkstra(1, wayPoint2);
         temp += totalDistance[wayPoint2];
 //        System.out.println(temp + " start -> v2");
-        bfs(wayPoint2, wayPoint1);
+        dijkstra(wayPoint2, wayPoint1);
         temp += totalDistance[wayPoint1];
 //        System.out.println(temp + " v2 -> v1");
-        bfs(wayPoint1, n);
+        dijkstra(wayPoint1, n);
         temp += totalDistance[n];
 //        System.out.println(temp + " v1 -> n");
         int v2v1n = temp;
@@ -69,7 +69,7 @@ public class P1504other {
         else System.out.println(-1);
     }
 
-    public static void bfs(int start, int end) {
+    public static void dijkstra(int start, int end) {
         isVisited = new int[n + 1];
         totalDistance = new int[n + 1];
         for (int j = 0; j < n + 1; j++) totalDistance[j] = INF;
