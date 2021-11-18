@@ -75,6 +75,7 @@ public class P1504other {
         for (int j = 0; j < n + 1; j++) totalDistance[j] = INF;
 
         PriorityQueue<Point> queue = new PriorityQueue<>();
+
         queue.add(new Point(start, 0));
         totalDistance[start] = 0;
 
