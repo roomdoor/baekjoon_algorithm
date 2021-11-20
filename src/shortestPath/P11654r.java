@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class P11654 {
-    public static ArrayList<Point>[] map;
+public class P11654r {
+    public static ArrayList<ArrayList<Point>> map;
     public static long[] totalDistance;
     public static int INF = 987654321;
     public static StringBuilder sb = new StringBuilder();
@@ -19,10 +19,10 @@ public class P11654 {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
 
-        map = new ArrayList[n + 1];
+        map = new ArrayList<>();
         totalDistance = new long[n + 1];
         for (int i = 0; i <= n; i++) {
-            map[i] = new ArrayList<>();
+            map.add(new ArrayList<>());
             totalDistance[i] = INF;
         }
 
@@ -32,10 +32,11 @@ public class P11654 {
             int end = Integer.parseInt(st.nextToken());
             int distance = Integer.parseInt(st.nextToken());
 
-            map[start].add(new Point(end, distance));
+            map.get(i).add(new Point(end, distance));
         }
 
         bmfd(n);
+
         if (!isPossible) {
             for (int i = 2; i <= n; i++) {
                 if (totalDistance[i] == INF) sb.append(-1).append("\n");
@@ -47,32 +48,28 @@ public class P11654 {
 
     public static void bmfd(int n) {
         totalDistance[1] = 0;
-        boolean isChanged = false;
-        for (int c = 1; c < n; c++) {
-            isChanged = false;
-            for (int i = 1; i <= n; i++) {
-                for (int j = 0; j < map[i].size(); j++) {
-                    int nextPoint = map[i].get(j).y;
-                    int distance = map[i].get(j).distance;
+        boolean isUpdate = false;
 
-                    if (totalDistance[i] != INF && totalDistance[i] + distance < totalDistance[nextPoint]) {
-                        totalDistance[nextPoint] = totalDistance[i] + distance;
-                        isChanged = true;
+        for (int i = 1; i < n; i++) {
+            isUpdate = false;
+            for (int j = 1; j <= n; j++) {
+                for (Point point : map.get(j)) {
+                    if (totalDistance[j] != INF && point.distance + totalDistance[j] < totalDistance[point.y]) {
+                        totalDistance[point.y] = point.distance + totalDistance[j];
+                        isUpdate = true;
                     }
                 }
             }
-            if (!isChanged) break;
+            if (!isUpdate) break;
         }
 
-        if (isChanged) {
-            for (int i = 1; i <= n; i++) {
-                for (int j = 0; j < map[i].size(); j++) {
-                    int nextPoint = map[i].get(j).y;
-                    int distance = map[i].get(j).distance;
-
-                    if (totalDistance[i] != INF && totalDistance[i] + distance < totalDistance[nextPoint]) {
+        if (isUpdate) {
+            for (int j = 1; j <= n; j++) {
+                for (Point point : map.get(j)) {
+                    if (totalDistance[j] != INF && point.distance + totalDistance[j] < totalDistance[point.y]) {
                         sb.append(-1);
                         isPossible = true;
+                        return;
                     }
                 }
             }
