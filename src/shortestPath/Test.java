@@ -1,4 +1,4 @@
 package shortestPath;
 
-public class P12313123 {
+public class Test {
 }
