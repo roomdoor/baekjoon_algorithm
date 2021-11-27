@@ -10,10 +10,12 @@ import java.util.StringTokenizer;
 public class P10217 {
     public static ArrayList<ArrayList<Airport>> map;
     public static boolean[] isVisited;
-    public static long[] timeCost;
-    public static long[] montyCost;
+    public static int[] timeCost;
+    public static int[] montyCost;
     public static StringBuilder sb = new StringBuilder();
     public static int INF = Integer.MAX_VALUE;
+    public static PriorityQueue<Airport> queue = new PriorityQueue<>();
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -26,8 +28,8 @@ public class P10217 {
 
             map = new ArrayList<>();
             isVisited = new boolean[n + 1];
-            timeCost = new long[n + 1];
-            montyCost = new long[n + 1];
+            timeCost = new int[n + 1];
+            montyCost = new int[n + 1];
 
             for (int j = 0; j <= n; j++) {
                 map.add(new ArrayList<>());
@@ -44,9 +46,12 @@ public class P10217 {
 
                 map.get(start).add(new Airport(end, money, time));
             }
+            queue.add(new Airport(1, 0, 0));
+            timeCost[1] = 0;
 
-            bfs(m, n);
-            if (timeCost[n] == INF) {
+            dpBfs(m, n, INF);
+
+            if (timeCost[n] == INF) {   // 출력 입력
                 sb.append("Poor KCM").append("\n");
             } else {
                 sb.append(timeCost[n]).append("\n");
@@ -55,32 +60,31 @@ public class P10217 {
         System.out.println(sb.toString());
     }
 
-    public static void bfs(int m, int n) {
-        PriorityQueue<Airport> queue = new PriorityQueue<>();
-        queue.add(new Airport(1, 0, 0));
-        timeCost[1] = 0;
-
-        while (!queue.isEmpty()) {
+    public static void dpBfs(int m, int n, int beforeTimeCost) {
+        if (!queue.isEmpty()) {
             Airport temp = queue.poll();
             int cur = temp.end;
-            long money = temp.moneyCost;
-            long time = temp.timeCost;
+            int money = temp.moneyCost;
+            int time = temp.timeCost;
             if (cur == n) {
-                timeCost[n] = Math.min(time, timeCost[n]);
-                continue;
+                return;
             }
-
 
             for (Airport next : map.get(cur)) {
                 int nextAir = next.end;
-                long nextMoneyCost = next.moneyCost;
-                long nextTimeCost = next.timeCost;
+                int nextMoneyCost = next.moneyCost;
+                int nextTimeCost = next.timeCost;
 
-                if (m >= money + nextMoneyCost ) {
-                    timeCost[nextAir] = time + nextTimeCost;
-                    queue.add(new Airport(nextAir, nextMoneyCost + money, nextTimeCost + time));
-                    System.out.println(nextAir);
-                    System.out.println("money " + (money + nextMoneyCost) + " time " + (nextTimeCost + time));
+                if (m >= money + nextMoneyCost) {
+                    if (timeCost[nextAir] > time + nextTimeCost) {
+                        int bTimeCost = timeCost[nextAir];
+                        timeCost[nextAir] = time + nextTimeCost;
+                        queue.add(new Airport(nextAir, nextMoneyCost + money, nextTimeCost + time));
+                        dpBfs(m, n, bTimeCost);
+                    }
+                } else {
+                    timeCost[cur] = beforeTimeCost;
+                    return;
                 }
             }
         }
@@ -89,10 +93,10 @@ public class P10217 {
 
     private static class Airport implements Comparable<Airport> {
         int end;
-        long moneyCost;
-        long timeCost;
+        int moneyCost;
+        int timeCost;
 
-        public Airport(int end, long moneyCost, long timeCost) {
+        public Airport(int end, int moneyCost, int timeCost) {
             this.end = end;
             this.moneyCost = moneyCost;
             this.timeCost = timeCost;
@@ -102,10 +106,9 @@ public class P10217 {
         @Override
         public int compareTo(Airport o) {
             if (timeCost == o.timeCost) {
-                return (int) (moneyCost - o.moneyCost);
-            } else {
-                return (int) (timeCost - o.timeCost);
-            }
+                return (moneyCost - o.moneyCost);
+            } else
+                return (timeCost - o.timeCost);
         }
     }
 }
