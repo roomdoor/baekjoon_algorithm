@@ -3,6 +3,7 @@ package twoPointer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class P1806 {
@@ -24,32 +25,31 @@ public class P1806 {
     public static int twoPointer(int[] arr, int s) {
         int answer = Integer.MAX_VALUE;
         int start = 0;
-        int end = 1;
-
-        while (start < end && end < arr.length) {
-            int sum = 0;
-
-            for (int i = start; i < end; i++) {
-                sum += arr[i];
-            }
-
-            if (sum < s) {
-                end++;
-            }
-
-            if (sum >= s) {
-                answer = Math.min(answer, end - start);
-                if (answer == 1) {
-                    return answer;
-                }
-                start++;
-            }
+        int end = 0;
+        int sum = arr[0];
+        int impossible = 0;
+        for (int num : arr) {
+            impossible += num;
         }
-
-        if (answer == Integer.MAX_VALUE) {
+        if (impossible < s) {
             return 0;
-        } else {
-            return answer;
         }
+
+        while (start <= end) {
+            if (sum < s && end < arr.length - 1) {
+                end++;
+                sum += arr[end];
+            } else {
+                if (sum >= s) {
+                    answer = Math.min(answer, end - start + 1);
+                    if (answer == 1) {
+                        return 1;
+                    }
+                    sum -= arr[start];
+                    start++;
+                } else return answer;
+            }
+        }
+        return answer;
     }
 }
