@@ -39,9 +39,6 @@ public class P1644 {
                     end++;
                     sum += sosuList.get(end);
                 } else break;
-            } else if (sum > n) {
-                sum -= sosuList.get(start);
-                start++;
             } else {
                 if (sum == n) {
                     count++;
@@ -49,6 +46,7 @@ public class P1644 {
                 sum -= sosuList.get(start);
                 start++;
             }
+
         }
 
         System.out.println(count);
