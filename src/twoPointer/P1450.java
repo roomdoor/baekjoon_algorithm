@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class P1450 {
@@ -12,51 +13,45 @@ public class P1450 {
         StringTokenizer st = new StringTokenizer(bf.readLine());
         int n = Integer.parseInt(st.nextToken());
         long c = Integer.parseInt(st.nextToken());
-        int[] arr1 = new int[n];
-        int[] arr2 = new int[n];
+        int[] arr = new int[n];
 
         st = new StringTokenizer(bf.readLine());
-        for (int i = 0; i < n / 2; i++) {
-            arr1[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        for (int i = 0; i < n - n / 2; i++) {
-            arr2[i] = Integer.parseInt(st.nextToken());
-        }
-
-        int[] test = new int[]{1, 2, 3};
-        ArrayList<Long> testList = new ArrayList<>();
-
-        for (int i = 0; i < 3; i++) {
-        boolean[] testVisited = new boolean[3];
-        RC(0,test,testVisited,testList, 0, i);
-        }
-        System.out.println(testList.toString());
-//        System.out.println(twoPoint(arr,c));
-
-    }
-
-    public static int twoPoint(int[] arr, int c) {
-        int answer = 0;
 
         ArrayList<Integer> num1 = new ArrayList<>();
         ArrayList<Integer> num2 = new ArrayList<>();
+        dfs(0, n / 2, 0, arr, num1, c);
+        dfs(n / 2 + 1, n - 1, 0, arr, num2, c);
 
-        return answer;
+        Collections.sort(num1);
+        Collections.sort(num2);
+//        System.out.println(num1.toString());
+//        System.out.println(num2.toString());
+
+        System.out.println();
+        int result = 0;
+        for (Integer integer : num1) {
+            for (Integer value : num2) {
+                if (integer + value <= c) {
+                    result++;
+                }
+            }
+        }
+
+        System.out.println(result);
     }
 
-    public static void RC(int DP, int[] arr, boolean[] isVisited, ArrayList<Long> num, long sum, int n) {
-        if (DP == n) {
+    public static void dfs(int start, int end, int sum, int[] arr, ArrayList<Integer> num, long c) {
+        if (sum > c) return;
+
+        if (start > end) {
             num.add(sum);
             return;
         }
 
-        for (int i = DP; i < arr.length; i++) {
-            if (!isVisited[i]) {
-                isVisited[i] = true;
-                System.out.println(arr[i]);
-                RC(DP + 1, arr, isVisited, num, sum, n);
-                isVisited[i] = false;
-            }
-        }
+        dfs(start + 1, end, sum, arr, num, c);
+        dfs(start + 1, end, sum + arr[start], arr, num, c);
     }
 }
