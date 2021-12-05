@@ -20,7 +20,6 @@ public class P14002 {
         arr = new int[n];
         trace = new Integer[n];
         DP = new Integer[n];
-        DP[0] = 1;
 
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
