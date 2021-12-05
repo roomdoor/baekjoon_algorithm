@@ -9,11 +9,13 @@ import java.util.Stack;
 public class P9252 {
     public static int[][] arr;
     public static int[] num;
+    public static String n;
+    public static String m;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String n = bf.readLine();
-        String m = bf.readLine();
+        n = bf.readLine();
+        m = bf.readLine();
 
         num = new int[n.length()];
         arr = new int[n.length() + 1][m.length() + 1];
@@ -32,20 +34,22 @@ public class P9252 {
 
         int result = arr[n.length()][m.length()];
         sb.append(result).append("\n");
-        Stack<Character> CS = new Stack<>();
-        for (int i = num.length - 1; i >= 0; i--) {
-            if (num[i] == result) {
-                CS.push(n.charAt(i));
-                result--;
+        if (result != 0) {
+            Stack<Character> CS = new Stack<>();
+            for (int i = num.length - 1; i >= 0; i--) {
+                if (num[i] == result) {
+                    CS.push(n.charAt(i));
+                    result--;
+                }
+            }
+            int length = CS.size();
+            for (int i = 0; i < length; i++) {
+                sb.append(CS.pop());
             }
         }
 
-        int length = CS.size();
-        for (int i = 0; i < length; i++) {
-            sb.append(CS.pop());
-        }
 
         System.out.println(sb.toString());
-
+        System.out.println(Arrays.toString(num));
     }
 }
