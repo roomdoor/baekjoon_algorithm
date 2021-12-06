@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class P14003 {
+public class P14003re {
     public static int[] arr;
     public static int[] trace;
     public static ArrayList<Integer> BSList;

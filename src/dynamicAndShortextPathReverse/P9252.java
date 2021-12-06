@@ -8,7 +8,6 @@ import java.util.Stack;
 
 public class P9252 {
     public static int[][] arr;
-    public static int[] num;
     public static String n;
     public static String m;
 
@@ -16,40 +15,46 @@ public class P9252 {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         n = bf.readLine();
         m = bf.readLine();
+        int nLength = n.length();
+        int mLength = m.length();
 
-        num = new int[n.length()];
-        arr = new int[n.length() + 1][m.length() + 1];
+        arr = new int[nLength + 1][mLength + 1];
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 1; i <= n.length(); i++) {
-            for (int j = 1; j <= m.length(); j++) {
+        for (int i = 1; i <= nLength; i++) {
+            for (int j = 1; j <= mLength; j++) {
                 if (n.charAt(i - 1) == m.charAt(j - 1)) {
                     arr[i][j] += arr[i - 1][j - 1] + 1;
-                    num[i - 1] = arr[i][j];
                 } else {
                     arr[i][j] = Math.max(arr[i - 1][j], arr[i][j - 1]);
                 }
             }
         }
 
-        int result = arr[n.length()][m.length()];
+        int result = arr[nLength][mLength];
         sb.append(result).append("\n");
+
+        Stack<Character> stack = new Stack<>();
+        int x = nLength;
+        int y = mLength;
         if (result != 0) {
-            Stack<Character> CS = new Stack<>();
-            for (int i = num.length - 1; i >= 0; i--) {
-                if (num[i] == result) {
-                    CS.push(n.charAt(i));
-                    result--;
+            while (x >= 1 && y >= 1) {
+                if (arr[x][y] == arr[x - 1][y]) {
+                    x--;
+                } else if (arr[x][y] == arr[x][y - 1]) {
+                    y--;
+                } else {
+                    x--;
+                    y--;
+                    stack.push(n.charAt(x));
                 }
             }
-            int length = CS.size();
-            for (int i = 0; i < length; i++) {
-                sb.append(CS.pop());
+            int length = stack.size();
+            for (int i = 0; i <length ; i++) {
+                sb.append(stack.pop());
             }
         }
 
-
         System.out.println(sb.toString());
-        System.out.println(Arrays.toString(num));
     }
 }

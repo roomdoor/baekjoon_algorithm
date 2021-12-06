@@ -55,6 +55,7 @@ public class P14003r {
         while(!stack.isEmpty()) {
             sb.append(stack.pop() + " ");
         }
+        System.out.println(Arrays.toString(tmp));
 
         bw.write(sb.toString());
         bw.flush();

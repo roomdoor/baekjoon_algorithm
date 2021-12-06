@@ -12,6 +12,7 @@ public class P9252r {
     public static int[] trace;
     public static String[] nArr;
     public static String[] mArr;
+    public static String[] stringCS;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -28,6 +29,7 @@ public class P9252r {
             mArr[i] = String.valueOf(m.charAt(i));
         }
 
+        stringCS = new String[n.length()];
         trace = new int[n.length()];
         arrLCS = new Integer[n.length()][m.length()];
         StringBuilder sb = new StringBuilder();
@@ -35,6 +37,12 @@ public class P9252r {
         int result = LCS(n.length() - 1, m.length() - 1);
 
         sb.append(result).append("\n");
+
+        for (int i = 1; i < result +1; i++) {
+            sb.append(stringCS[i]);
+        }
+        sb.append("\n");
+
         Stack<Character> CS = new Stack<>();
         for (int i = trace.length - 1; i >= 0; i--) {
             if (trace[i] == result) {
@@ -48,8 +56,8 @@ public class P9252r {
         for (int i = 0; i < length; i++) {
             sb.append(CS.pop());
         }
-//        System.out.println(Arrays.toString(trace));
-//        System.out.println(Arrays.deepToString(arrLCS));
+        System.out.println(Arrays.toString(trace));
+        System.out.println(Arrays.deepToString(arrLCS));
         System.out.println(sb.toString());
 
     }
@@ -64,6 +72,9 @@ public class P9252r {
             if (Objects.equals(nArr[x], mArr[y])) {
                 arrLCS[x][y] = LCS(x - 1, y - 1) + 1;
                 trace[x] = arrLCS[x][y];
+                if (stringCS[x] == null) {
+                    stringCS[x] = nArr[x];
+                }
             } else {
                 arrLCS[x][y] = Math.max(LCS(x - 1, y), LCS(x, y - 1));
             }
