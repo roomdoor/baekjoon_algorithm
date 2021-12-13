@@ -3,9 +3,12 @@ package dynamicAndShortextPathReverse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Stack;
+import java.util.StringTokenizer;
 
-public class P2618r {
+public class P2618rr {
     public static int[][] DP;
     public static ArrayList<AccidentPoint> AP;
     public static int n;
@@ -59,46 +62,19 @@ public class P2618r {
 
     }
 
-    public static void spdp() {
-        PriorityQueue<Point> queue = new PriorityQueue<>();
-        queue.add(new Point(0, 0, new carPoint(1, 1, n, n), 0, 0));
-
-        while (!queue.isEmpty()) {
-            Point now = queue.poll();
-            int XP = now.xP;
-            int YP = now.yP;
-            carPoint nowCar = now.carPoint;
-            int x1 = nowCar.x1;
-            int y1 = nowCar.y1;
-            int x2 = nowCar.x2;
-            int y2 = nowCar.y2;
-            int nowP = now.point;
-            if (nowP == w) {
-                if (answer > now.distance) {
-                    answer = now.distance;
-                    endX = XP;
-                    endY = YP;
-                }
-                continue;
-            }
-
-            int nextX = AP.get(nowP).x;
-            int nextY = AP.get(nowP).y;
-            int dis = now.distance;
-
-
-            if (DP[nowP + 1][YP] == 0 || DP[nowP + 1][YP] > dis + countDis(x1, y1, AP.get(nowP))) {
-                DP[nowP + 1][YP] = dis + countDis(x1, y1, AP.get(nowP));
-                queue.add(new Point(nowP + 1, YP, new carPoint(nextX, nextY, x2, y2), DP[nowP + 1][YP], nowP + 1));
-            }
-
-            if (DP[XP][nowP + 1] == 0 || DP[XP][nowP + 1] > dis + countDis(x2, y2, AP.get(nowP))) {
-                DP[XP][nowP + 1] = dis + countDis(x2, y2, AP.get(nowP));
-                queue.add(new Point(XP, nowP + 1, new carPoint(x1, y1, nextX, nextY), DP[XP][nowP + 1], nowP + 1));
-            }
-
-        }
-    }
+//    public static int spdp(int dp, int x, int y) {
+//        if (dp == w) {
+//            return 0;
+//        }
+//
+//        if (DP[x][y] != 0) return DP[x][y];
+//
+//
+//        spdp(dp + 1, dp, y);
+//        spdp(dp + 1, x, dp);
+//
+//
+//    }
 
     public static int countDis(int x, int y, AccidentPoint accidentPoint) {
         return Math.abs(accidentPoint.x - x) + Math.abs(y - accidentPoint.y);
