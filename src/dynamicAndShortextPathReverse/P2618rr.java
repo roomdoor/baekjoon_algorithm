@@ -32,7 +32,7 @@ public class P2618rr {
             AP.add(new AccidentPoint(x, y));
         }
 
-        spdp();
+//        spdp();
 
         StringBuilder sb = new StringBuilder();
 //        System.out.println(answer);
