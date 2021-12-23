@@ -72,7 +72,8 @@ public class P1753 {
 
     private static class Node implements Comparable<Node> {
 
-        int end, distance;
+        int end;
+        int distance;
 
         public Node(int end, int distance) {
             this.end = end;
