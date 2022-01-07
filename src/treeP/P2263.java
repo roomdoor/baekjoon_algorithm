@@ -23,7 +23,7 @@ public class P2263 {
 
         st = new StringTokenizer(bf.readLine());
         for (int i = 0; i < n; i++) {
-            postOrder[i] = Integer.parseInt(st.nextToken());
+            postOrder[i] = Integer.parseInt(st.nextT:1:1oken());
         }
 
     }
