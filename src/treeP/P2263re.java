@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class P2263 {
+public class P2263re {
     public static int[] inOrder;
     public static int[] postOrder;
+    public static int[] position;
     public static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
@@ -16,6 +17,7 @@ public class P2263 {
         int n = Integer.parseInt(bf.readLine());
         inOrder = new int[n];
         postOrder = new int[n];
+        position = new int[n + 1];
 
         StringTokenizer st = new StringTokenizer(bf.readLine());
         for (int i = 0; i < n; i++) {
@@ -26,36 +28,24 @@ public class P2263 {
         for (int i = 0; i < n; i++) {
             postOrder[i] = Integer.parseInt(st.nextToken());
         }
+        for (int i = 0; i < n; i++) {
+            position[inOrder[i]] = i;
+        }
 
         makePreOrder(0, n - 1, 0, n - 1);
 
         System.out.println(sb.toString());
     }
 
-
     public static void makePreOrder(int IS, int IE, int PS, int PE) {
         if (IS <= IE && PS <= PE) {
-            sb.append(postOrder[PE]).append(" ");
+            int root = postOrder[PE];
+            sb.append(root).append(" ");
 
-            int root = IS;
-            for (int i = IS; i <= IE; i++) {
-                if (inOrder[i] == postOrder[PE]) {
-                    root = i;
-                    break;
-                }
-            }
+            root = position[root];
+
             makePreOrder(IS, root - 1, PS, PS + root - IS - 1);
             makePreOrder(root + 1, IE, PS + root - IS, PE - 1);
         }
     }
 }
-
-//1 2 3 4 5 6
-//6 5 4 3 2 1
-
-//6 5 4 3 2 1
-
-//1 2 4 3 5 6
-//6 5 4 3 2 1
-
-//6 5 4 3 2 1
