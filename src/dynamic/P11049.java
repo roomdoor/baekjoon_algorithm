@@ -37,23 +37,20 @@ public class P11049 {
             return cost[x];
         }
 
+        if (DP[x][y].count != INF) {
+            return DP[x][y];
+        }
 
         if (x + 1 == y) {
             return DP[x][y] = new Point(cost[x].a, cost[y].b, cost[x].a * cost[x].b * cost[y].b);
         }
 
-        if (DP[x][y].count != INF) {
-            return DP[x][y];
-        }
-
-        for (int mid = 1; mid < y; mid++) {
+        for (int mid = x; mid < y; mid++) {
             Point sx = count(x, mid);
             Point ey = count(mid + 1, y);
             int tempCount = sx.a * sx.b * ey.b + sx.count + ey.count;
             if (DP[x][y].count > tempCount) {
-                DP[x][y].a = sx.a;
-                DP[x][y].b = ey.b;
-                DP[x][y].count = tempCount;
+                DP[x][y] = new Point(sx.a, ey.b, tempCount);
             }
         }
 
