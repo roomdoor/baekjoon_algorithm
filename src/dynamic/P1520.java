@@ -23,6 +23,7 @@ public class P1520 {
 
         map = new int[row][col];
         count = new int[row][col];
+        count[0][0] = 1;
         isVisited = new boolean[row][col];
 
         for (int i = 0; i < row; i++) {
@@ -34,14 +35,12 @@ public class P1520 {
 
 //        mapFill();
 
-
         System.out.println(bfs());
     }
 
     public static int bfs() {
         PriorityQueue<Point> queue = new PriorityQueue<>();
         queue.offer(new Point(0, 0, map[0][0]));
-        count[0][0] = 1;
 
         while (!queue.isEmpty()) {
             Point cur = queue.poll();
