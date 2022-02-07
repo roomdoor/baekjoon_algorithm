@@ -33,20 +33,50 @@ public class P7579re {
         }
 
         DP = new int[n + 1][maxC + 1];
+        boolean isChecked = false;
+        for (int j = 1; j <= maxC &&!isChecked; j++) {
 
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= maxC; j++) {
+            for (int i = 1; i <= n; i++) {
                 if (j < memory[1][i]) {
                     DP[i][j] = DP[i - 1][j];
                 } else {
-                    DP[i][j] = Math.max(DP[i - 1][j], DP[i - 1][j - memory[1][j]] + memory[0][j]);
+                    DP[i][j] = Math.max(DP[i - 1][j] ,Math.max(memory[0][i], DP[i - 1][j - memory[1][i]] + memory[0][i]));
+                }
+
+                if (DP[i][j] >= m) {
+                    System.out.println(j);
+                    isChecked = true;
+                    break;
                 }
             }
         }
 
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= maxC ; j++) {
-                System.out.print(DP[i][j] + " ");
+//        print(n,maxC);
+
+    }
+
+    public static void print(int n ,int maxC) {
+        System.out.print("    ");
+        for (int i = 1; i <= maxC; i++) {
+            if (i < 10) {
+                System.out.print("  " + i + " ");
+            } else if (i < 100) {
+                System.out.print(" " + i + " ");
+            } else {
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println();
+        for (int i = 1; i <= n; i++) {
+            System.out.print(i + "   ");
+            for (int j = 1; j <= maxC; j++) {
+                if (DP[i][j] < 10) {
+                    System.out.print("  " + DP[i][j] + " ");
+                } else if (DP[i][j] < 100) {
+                    System.out.print(" " + DP[i][j] + " ");
+                } else {
+                    System.out.print(DP[i][j] + " ");
+                }
             }
             System.out.println();
         }
