@@ -6,14 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-class Point {
-    int x, y;
-
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
 
 public class P1012 {
     public static StringBuilder sb = new StringBuilder();
@@ -53,6 +45,14 @@ public class P1012 {
         }
     }
 
+    private static class Point {
+        int x, y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
