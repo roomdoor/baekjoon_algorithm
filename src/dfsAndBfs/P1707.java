@@ -42,7 +42,7 @@ public class P1707 {
 
     public static boolean bfs(int start, int v) {
         Queue<Integer> queue = new ArrayDeque<>();
-        queue.add(start);
+        queue.offer(start);
         isChecked[start] = 1;
         int bipartiteGraph = -1;
 
@@ -53,7 +53,7 @@ public class P1707 {
                     return false;
                 }
                 if (isChecked[next] == 0) {
-                    isChecked[next] = bipartiteGraph;
+                    isChecked[next] = isChecked[cur] * -1;
                     queue.offer(next);
                 }
             }

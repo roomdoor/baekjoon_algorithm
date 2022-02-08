@@ -1,5 +1,4 @@
-package dfsAndBfs;
-
+package minimumSpaningTree;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,26 +8,26 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class P1707re {
+public class P92372 {
     public static ArrayList<ArrayList<Integer>> map;
-    public static int[] isChecked;
+    public static boolean[] isChecked;
     public static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int k = Integer.parseInt(bf.readLine());
-        while (k-- > 0) {
+        int t = Integer.parseInt(bf.readLine());
+        while (t-- > 0) {
             StringTokenizer st = new StringTokenizer(bf.readLine());
-            int v = Integer.parseInt(st.nextToken());
-            int e = Integer.parseInt(st.nextToken());
+            int n = Integer.parseInt(st.nextToken());
+            int m = Integer.parseInt(st.nextToken());
 
-            isChecked = new int[v + 1];
+            isChecked = new boolean[n + 1];
             map = new ArrayList<>();
-            for (int i = 0; i <= v; i++) {
+            for (int i = 0; i <= n; i++) {
                 map.add(new ArrayList<>());
             }
 
-            for (int i = 0; i < e; i++) {
+            for (int i = 0; i < m; i++) {
                 st = new StringTokenizer(bf.readLine());
                 int start = Integer.parseInt(st.nextToken());
                 int end = Integer.parseInt(st.nextToken());
@@ -37,44 +36,31 @@ public class P1707re {
                 map.get(end).add(start);
             }
 
-            makeAnswer(bfs(1, v));
+            sb.append(MST(1)).append("\n");
+
         }
 
         System.out.println(sb.toString());
     }
 
-    public static boolean bfs(int start, int v) {
+    public static int MST(int start) {
+        int count = 0;
         Queue<Integer> queue = new ArrayDeque<>();
         queue.offer(start);
-        isChecked[start] = 1;
 
         while (!queue.isEmpty()) {
             int cur = queue.poll();
+            isChecked[cur] = true;
+
             for (int next : map.get(cur)) {
-                if (isChecked[next] == isChecked[cur]) {
-                    return false;
-                }
-                if (isChecked[next] == 0) {
-                    isChecked[next] = isChecked[cur] * (-1);
+                if (!isChecked[next]) {
+                    count++;
+                    isChecked[next] = true;
                     queue.offer(next);
+
                 }
             }
         }
-
-        for (int i = 1; i <= v; i++) {
-            if (isChecked[i] == 0) {
-                return bfs(i, v);
-            }
-        }
-        return true;
+        return count;
     }
-
-    public static void makeAnswer(boolean bfs) {
-        if (bfs) {
-            sb.append("YES").append("\n");
-        } else {
-            sb.append("NO").append("\n");
-        }
-    }
-
 }
