@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class P1197re {
+public class P1197Prim {
     public static ArrayList<ArrayList<Point>> map;
-    public static boolean[] isChecked;
+    public static boolean[] isVisited;
 
 
     public static void main(String[] args) throws IOException {
@@ -20,7 +20,7 @@ public class P1197re {
         int v = Integer.parseInt(st.nextToken());
         int e = Integer.parseInt(st.nextToken());
 
-        isChecked = new boolean[v];
+        isVisited = new boolean[v];
         map = new ArrayList<>();
         for (int i = 0; i < e; i++) {
             map.add(new ArrayList<>());
@@ -32,8 +32,8 @@ public class P1197re {
             int b = Integer.parseInt(st.nextToken()) - 1;
             int c = Integer.parseInt(st.nextToken());
 
-            map.get(a).add(new Point(b, c));
-            map.get(b).add(new Point(a, c));
+            map.get(a).add(new Point(b, c, 0));
+            map.get(b).add(new Point(a, c, 0));
         }
         System.out.println(MST(v));
 
@@ -41,42 +41,40 @@ public class P1197re {
 
     public static int MST(int v) {
         PriorityQueue<Point> queue = new PriorityQueue<>();
-        Point start = new Point(2, 0);
+        Point start = new Point(1, 0, 1);
         queue.offer(start);
-        int answer1 = 0;
-        int answer2 = 0;
-        int mstCount = 0;
+        int result = 0;
 
         while (!queue.isEmpty()) {
             Point cur = queue.poll();
-            isChecked[cur.b] = true;
+            if (isVisited[cur.b]) continue;
+            isVisited[cur.b] = true;
+
             for (Point next : map.get(cur.b)) {
-                if (!isChecked[next.b]) {
-                    int nextCost = cur.cost + next.cost;
-                    answer1 = nextCost;
-                    if (mstCount < v - 1) {
-                        answer2 += nextCost;
-                    }
-                    mstCount++;
-                    queue.offer(new Point(next.b, nextCost));
-                }
+                queue.offer(new Point(next.b, cur.cost + next.cost, cur.count + 1));
             }
         }
 
-        return Math.min(answer1, answer2);
+        return result;
     }
 
     private static class Point implements Comparable<Point> {
         int b;
         int cost;
+        int count;
 
-        public Point(int b, int cost) {
+        public Point(int b, int cost, int count) {
             this.b = b;
             this.cost = cost;
+            this.count = count;
         }
 
         @Override
         public int compareTo(Point o) {
+            if (this.cost - o.cost == 0) {
+                return o.count - this.count;
+            }
+
             return this.cost - o.cost;
         }
     }
