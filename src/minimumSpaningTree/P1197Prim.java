@@ -3,18 +3,15 @@ package minimumSpaningTree;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class P1197Prim {
-    public static ArrayList<ArrayList<Point>> map;
+    public static List<List<Node>> map;
     public static boolean[] isVisited;
-
+    public static int answer = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(bf.readLine());
 
         int v = Integer.parseInt(st.nextToken());
@@ -22,62 +19,54 @@ public class P1197Prim {
 
         isVisited = new boolean[v];
         map = new ArrayList<>();
-        for (int i = 0; i < e; i++) {
+        for (int i = 0; i < v; i++) {
             map.add(new ArrayList<>());
         }
 
         for (int i = 0; i < e; i++) {
             st = new StringTokenizer(bf.readLine());
-            int a = Integer.parseInt(st.nextToken()) - 1;
-            int b = Integer.parseInt(st.nextToken()) - 1;
-            int c = Integer.parseInt(st.nextToken());
+            int start = Integer.parseInt(st.nextToken()) - 1;
+            int end = Integer.parseInt(st.nextToken()) - 1;
+            int cost = Integer.parseInt(st.nextToken());
 
-            map.get(a).add(new Point(b, c, 0));
-            map.get(b).add(new Point(a, c, 0));
+            map.get(start).add(new Node(end, cost));
+            map.get(end).add(new Node(start, cost));
         }
-        System.out.println(MST(v));
 
+        for (List<Node> list : map) {
+            Collections.sort(list);
+        }
+        prim(0);
+        System.out.println(answer);
     }
 
-    public static int MST(int v) {
-        PriorityQueue<Point> queue = new PriorityQueue<>();
-        Point start = new Point(1, 0, 1);
-        queue.offer(start);
-        int result = 0;
-
-        while (!queue.isEmpty()) {
-            Point cur = queue.poll();
-            if (isVisited[cur.b]) continue;
-            isVisited[cur.b] = true;
-
-            for (Point next : map.get(cur.b)) {
-                queue.offer(new Point(next.b, cur.cost + next.cost, cur.count + 1));
+    public static void prim(int cur) {
+        if (isVisited[cur]) {
+            return;
+        }
+        isVisited[cur] = true;
+        for (Node next : map.get(cur)) {
+            if (!isVisited[next.b]) {
+                answer += next.cost;
+                prim(next.b);
+                isVisited[next.b] = true;
             }
         }
-
-        return result;
     }
 
-    private static class Point implements Comparable<Point> {
+
+    private static class Node implements Comparable<Node> {
         int b;
         int cost;
-        int count;
 
-        public Point(int b, int cost, int count) {
+        public Node(int b, int cost) {
             this.b = b;
             this.cost = cost;
-            this.count = count;
         }
 
         @Override
-        public int compareTo(Point o) {
-            if (this.cost - o.cost == 0) {
-                return o.count - this.count;
-            }
-
+        public int compareTo(Node o) {
             return this.cost - o.cost;
         }
     }
-
-
 }
