@@ -12,8 +12,8 @@ public class Solution {
         Stack<Message> notification = new Stack<>();
         ArrayList<String> saveCase = new ArrayList<>();
 
-        for (int i = 0; i < records.length; i++) {
-            if (records[i].equals("check notification")) {
+        for (String record : records) {
+            if (record.equals("check notification")) {
                 Message message = notification.pop();
 
                 if (message.names.size() == 1) {
@@ -37,7 +37,7 @@ public class Solution {
                 }
 
             } else {
-                String[] split = records[i].split(" ");
+                String[] split = record.split(" ");
                 String name = split[0];
                 String action = split[1];
 

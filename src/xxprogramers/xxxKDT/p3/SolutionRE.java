@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class Solution {
+public class SolutionRE {
     public static int[] solution(int n, int[] passenger, int[][] train) {
         List<List<Integer>> map = new ArrayList<>();
 
@@ -33,10 +33,12 @@ public class Solution {
 
         while (!queue.isEmpty()) {
             Station cur = queue.poll();
+            int tempNum = cur.num;
+            int tempP = cur.passenger;
+            isVisited[cur.num] = true;
 
             for (int next : map.get(cur.num)) {
                 if (!isVisited[next]) {
-                    isVisited[next] = true;
                     queue.add(new Station(next, cur.passenger + passengers[next - 1]));
 
                     if (maxStation[1] == cur.passenger + passengers[next - 1]) {
@@ -64,23 +66,19 @@ public class Solution {
         }
 
         @Override
-        public String toString() {
-            return "Station{" +
-                    "passenger=" + passenger +
-                    ", num=" + num +
-                    '}';
-        }
-
-        @Override
         public int compareTo(Station o) {
-            return o.passenger - this.passenger;
+            if (o.passenger == this.passenger) {
+                return this.num - o.num;
+            } else {
+                return o.passenger - this.passenger;
+            }
         }
     }
 
     public static void main(String[] args) {
         int n = 6;
         int[] p = new int[]{1, 1, 1, 1, 1, 1};
-        int[][] train = new int[][]{{1, 2}, {1, 3}, {1, 4}, {3, 5}, {3, 6}, {5, 6}, {4,3}};
+        int[][] train = new int[][]{{1, 2}, {1, 3}, {1, 4}, {3, 5}, {3, 6}, {5, 6},{3,4}};
 
         System.out.println(Arrays.toString(solution(n, p, train)));
     }

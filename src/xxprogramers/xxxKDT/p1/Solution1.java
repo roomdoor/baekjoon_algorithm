@@ -7,13 +7,14 @@ public class Solution1 {
         int answer = -1;
         int temp = 1001;
         Arrays.sort(arr);
+        System.out.println(Arrays.toString(arr));
 
         for (int i = arr[arr.length - 1]; i >= 0; i--) {
             int a = 0;
             int b = 0;
 
-            for (int j = 0; j < arr.length; j++) {
-                if (i > arr[j]) {
+            for (int k : arr) {
+                if (i > k) {
                     b++;
                 } else {
                     a++;
