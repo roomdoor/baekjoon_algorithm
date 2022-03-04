@@ -32,6 +32,8 @@ public class P11066re {
                 sum[j] += sum[j - 1] + cost[j];
             }
 
+            System.out.println(Arrays.toString(cost));
+            System.out.println(Arrays.toString(sum));
             int answer = pageSum(1, k);
             sb.append(answer).append("\n");
         }

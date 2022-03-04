@@ -1,10 +1,10 @@
-package backTraking;
+package backTracking;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class P9663 {
+public class P9663r {
 
     public static int count = 0;
     public static int[] chessBoard;
@@ -16,39 +16,39 @@ public class P9663 {
         count = 0;
         chessBoard = new int[n];
 
-        nQueen(n, 0);
+        makeQ(n, 0);
+
         System.out.println(count);
 
 
     }
 
-    public static void nQueen(int n, int row) {
+    public static void makeQ(int n, int depth) {
 
-        if (row == n) {
+        if (n == depth) {
             count++;
             return;
         }
 
-        if (row == 0) {
+        if (depth == 0) {
             for (int i = 0; i < n; i++) {
-                chessBoard[row] = i;
-                nQueen(n, row + 1);
+                chessBoard[depth] = i;
+                makeQ(n, depth + 1);
             }
         } else {
             for (int i = 0; i < n; i++) {
-                chessBoard[row] = i;
-                if (isPossible(row)) {
-                    nQueen(n, row + 1);
+                chessBoard[depth] = i;
+                if (isChecked(depth)) {
+                    makeQ(n, depth + 1);
                 }
             }
         }
     }
 
-    public static boolean isPossible(int row) {
-        for (int i = 0; i < row; i++) {
-            if (chessBoard[i] == chessBoard[row] || row - i == Math.abs(chessBoard[row] - chessBoard[i])) {
+    public static boolean isChecked(int depth) {
+        for (int i = 0; i < depth; i++) {
+            if (chessBoard[i] == chessBoard[depth] || depth - i == Math.abs(chessBoard[i] - chessBoard[depth]))
                 return false;
-            }
         }
         return true;
     }
