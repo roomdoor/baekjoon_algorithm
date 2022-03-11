@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class P2580 {
-
     public static int[][] sdoku = new int[9][9];                        // 스도쿠 판떄기
     public static ArrayList<int[]> emptyPoint = new ArrayList<>();      // 빈칸 좌표 저장 배열
     public static StringBuilder sb = new StringBuilder();
-
 
     public static void main(String[] args) throws IOException {         // main
 

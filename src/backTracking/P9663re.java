@@ -23,35 +23,29 @@ public class P9663re {
     }
 
     public static void nQueen(int n, int row) {
-
         if (row == n) {
             count++;
             return;
         }
 
-        if (row == 0) {
-            for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+            if (isPossible(row, i, n)) {
                 chessBoard[row] = i;
                 nQueen(n, row + 1);
-            }
-        } else {
-            for (int i = 0; i < n; i++) {
-                chessBoard[row] = i;
-                if (isPossible(row)) {
-                    nQueen(n, row + 1);
-                }
             }
         }
     }
 
-    public static boolean isPossible(int row) {
+    private static boolean isPossible(int row, int num, int n) {
         for (int i = 0; i < row; i++) {
-            if (chessBoard[i] == chessBoard[row] || row - i == Math.abs(chessBoard[row] - chessBoard[i])) {
+            if (chessBoard[i] == num || Math.abs(row - i) == Math.abs(num - chessBoard[i])) {
                 return false;
             }
         }
         return true;
     }
+
+
 }
 
 
