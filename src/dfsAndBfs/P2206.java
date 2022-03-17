@@ -37,7 +37,6 @@ public class P2206 {
     }
 
     public static int bfs() {
-
         queue.add(new queuePoint(0, 0, 1, 0));
 
         while (!queue.isEmpty()) {
