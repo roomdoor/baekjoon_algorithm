@@ -3,7 +3,7 @@ package greedy;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
@@ -13,14 +13,13 @@ public class P13164 {
 	static int K;
 	static long[] students;
 	static int result;
-	static boolean[] isChecked;
 
 
 	public static void main(String[] args) throws IOException {
 		input();
 
 		result = 0;
-		PriorityQueue<int[]> queue = new PriorityQueue<>((x, y) -> x[1] - y[1]);
+		PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(x -> x[1]));
 
 		for (int i = 0; i < N - 1; i++) {
 			int diff = (int) (students[i + 1] - students[i]);
