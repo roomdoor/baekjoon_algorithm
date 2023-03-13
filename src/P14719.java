@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class P14719 {
@@ -20,38 +18,22 @@ public class P14719 {
 	}
 
 	private static int cul() {
-		List<Integer> cols = new ArrayList<>();
 		int sum = 0;
-		int now = map[0];
-		int point = 1;
-		int max = 0;
+		for (int i = 1; i < w - 1; i++) {
+			int left = 0;
+			int right = 0;
 
-		while (point < w - 1) {
-			if (now > map[point]) {
-				max = Math.max(map[point], max);
-				cols.add(map[point]);
-			} else {
-				max = Math.min(now, map[point]);
-				sum += culWater(cols, max);
-				cols = new ArrayList<>();
-				now = map[point];
-				max = 0;
+			for (int j = 0; j < i; j++) {
+				left = Math.max(left, map[j]);
 			}
-			point++;
-		}
 
-		if (map[point] != 0) {
-			max = Math.min(now, map[point]);
-			sum += culWater(cols, max);
-		}
+			for (int j = i; j < w; j++) {
+				right = Math.max(right, map[j]);
+			}
 
-		return sum;
-	}
-
-	private static int culWater(List<Integer> cols, int max) {
-		int sum = 0;
-		for (Integer col : cols) {
-			sum += max - col;
+			if (map[i] <= left && map[i] <= right) {
+				sum += Math.min(left, right) - map[i];
+			}
 		}
 
 		return sum;
