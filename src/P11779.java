@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Stack;
@@ -14,6 +13,7 @@ public class P11779 {
 	static int n;
 	static int m;
 	static List<List<int[]>> buses;
+	static List<List<int[]>> tracingMap;
 	static int startPoint;
 	static int endPoint;
 	static StringTokenizer st;
@@ -24,21 +24,22 @@ public class P11779 {
 	}
 
 	private static void dijkstra() {
-		PriorityQueue<int[]> queue = new PriorityQueue<>(
-			Comparator.comparingInt(x -> x[1])); // int[]{현재위치, 코스트}
-		queue.add(new int[]{startPoint, 0});
+		PriorityQueue<Way> queue = new PriorityQueue<>();
+		queue.add(new Way(startPoint, 0));
+		int[] pointCost = new int[n + 1];
+		Arrays.fill(pointCost, Integer.MAX_VALUE);
+		pointCost[startPoint] = 0;
 
 		while (!queue.isEmpty()) {
-			int[] pointCost = new int[n + 1];
-			Arrays.fill(pointCost, Integer.MAX_VALUE);
-			pointCost[startPoint] = 0;
 
-			int[] cur = queue.poll();
-			int curPoint = cur[0];
-			int curCost = cur[1];
+			Way cur = queue.poll();
+			int curPoint = cur.curPoint;
+			int curCost = cur.curCost;
 			if (curPoint == endPoint) {
-				System.out.println(curCost);
-				tracing(curPoint, curCost, pointCost);
+				StringBuilder sb = new StringBuilder();
+				sb.append(curCost).append("\n");
+				tracing(curPoint, curCost, pointCost, sb);
+				System.out.println(sb);
 				return;
 			}
 
@@ -46,31 +47,49 @@ public class P11779 {
 			for (int[] busWay : busWays) {
 				if (curCost + busWay[2] < pointCost[busWay[1]]) {
 					pointCost[busWay[1]] = curCost + busWay[2];
-					queue.add(new int[]{busWay[1], pointCost[busWay[1]]});
+					queue.add(new Way(busWay[1], pointCost[busWay[1]]));
 				}
 			}
 		}
 	}
 
-	private static void tracing(int curPoint, int curCost, int[] pointCost) {
+	private static void tracing(int curPoint, int curCost, int[] pointCost, StringBuilder sb) {
 		Stack<Integer> stack = new Stack<>();
-
+		stack.add(curPoint);
 		while (curPoint != startPoint) {
-			List<int[]> busWays = buses.get(curPoint);
+			List<int[]> busWays = tracingMap.get(curPoint);
 			for (int i = 0; i < busWays.size(); i++) {
 				int[] busWay = busWays.get(i);
-				if (pointCost[busWay[0]] == curCost - busWay[2]) {
-					stack.add(busWay[0]);
-					curCost = pointCost[busWay[0]];
-					curPoint = busWay[0];
+				if (pointCost[busWay[1]] == curCost - busWay[2]) {
+					stack.add(busWay[1]);
+					curCost = pointCost[busWay[1]];
+					curPoint = busWay[1];
 					break;
 				}
 			}
 		}
+		sb.append(stack.size()).append("\n");
+
 		while (!stack.isEmpty()) {
-			System.out.println(stack.pop());
+			sb.append(stack.pop()).append(" ");
 		}
 
+	}
+
+	private static class Way implements Comparable<Way> {
+
+		int curPoint;
+		int curCost;
+
+		public Way(int curPoint, int curCost) {
+			this.curPoint = curPoint;
+			this.curCost = curCost;
+		}
+
+		@Override
+		public int compareTo(Way o) {
+			return this.curCost - o.curCost;
+		}
 	}
 
 	private static void input() throws IOException {
@@ -78,8 +97,10 @@ public class P11779 {
 		n = Integer.parseInt(bf.readLine());
 		m = Integer.parseInt(bf.readLine());
 		buses = new ArrayList<>();
+		tracingMap = new ArrayList<>();
 		for (int i = 0; i < n + 1; i++) {
 			buses.add(new ArrayList<>());
+			tracingMap.add(new ArrayList<>());
 		}
 
 		for (int i = 0; i < m; i++) {
@@ -89,6 +110,7 @@ public class P11779 {
 			int cost = Integer.parseInt(st.nextToken());
 
 			buses.get(start).add(new int[]{start, end, cost});
+			tracingMap.get(end).add(new int[]{end, start, cost});
 		}
 		st = new StringTokenizer(bf.readLine());
 		startPoint = Integer.parseInt(st.nextToken());
