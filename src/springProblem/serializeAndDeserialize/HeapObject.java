@@ -1,4 +1,4 @@
-package ames.p11;
+package springProblem.serializeAndDeserialize;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

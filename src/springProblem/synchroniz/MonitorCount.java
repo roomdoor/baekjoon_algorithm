@@ -1,4 +1,4 @@
-package ames.p12;
+package springProblem.synchroniz;
 
 public class MonitorCount {
 

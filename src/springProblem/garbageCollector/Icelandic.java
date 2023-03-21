@@ -1,4 +1,4 @@
-package ames.p5;
+package springProblem.garbageCollector;
 
 // Garbage Collector 묻는 질문
 // how many object are eligible for the GC?

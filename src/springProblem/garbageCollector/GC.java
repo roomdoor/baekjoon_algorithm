@@ -1,4 +1,4 @@
-package ames.p10;
+package springProblem.garbageCollector;
 
 // oo 객체는 언제 Garbage Collector에서 없어지냐
 public class GC {

@@ -1,4 +1,4 @@
-package ames.p6;
+package springProblem.variable;
 // 출력 결과 물어봄
 public class Pass {
 

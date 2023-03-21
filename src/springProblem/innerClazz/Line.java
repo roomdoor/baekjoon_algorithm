@@ -1,6 +1,6 @@
-package ames.p3;
+package springProblem.innerClazz;
 
-import ames.p3.Line.Point;
+import springProblem.innerClazz.Line.Point;
 // Point 인스턴스 어떻게 Triangle 안에서 호출하냐??
 class Line {
 

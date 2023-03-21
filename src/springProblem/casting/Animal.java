@@ -1,4 +1,4 @@
-package ames.p8;
+package springProblem.casting;
 
 // 업케스팅 다운 케스팅
 

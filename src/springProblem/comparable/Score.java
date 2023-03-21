@@ -1,4 +1,4 @@
-package ames.p1;
+package springProblem.comparable;
 
 public class Score implements Comparable<Score>{
 

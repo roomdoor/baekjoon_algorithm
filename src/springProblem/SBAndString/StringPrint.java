@@ -1,4 +1,4 @@
-package ames.p4;
+package springProblem.SBAndString;
 
 public class StringPrint {
 
